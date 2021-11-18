@@ -1,4 +1,4 @@
-// Setup the environement variables form a .env file
+// Setup the environment variables form a .env file
 require("dotenv").config();
 const mysql = require("mysql2");
 
