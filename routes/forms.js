@@ -18,9 +18,9 @@ formsRouter.post('/', (req,res) => {
     };
     Form.transporter.sendMail(mail, (error) => {
         if (error) {
-            res.json({ status: "ERROR" });
+            res.json({ status: "Error", msg: "Sorry, service was disconnected" });
         } else {
-            res.json({ status: "Message Sent" });
+            res.json({ status: "Success", msg: "Message Sent" });
         }
     });
 });
