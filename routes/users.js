@@ -1,46 +1,23 @@
 const usersRouter = require('express').Router();
 const User = require('../models/user');
+const {calculateToken} = require("../helpers/users");
 
-
-usersRouter.get('/', (req, res) => {
-    const { language } = req.query;
-    User.findMany({ filters: { language }})
-        .then((users) => {
-            res.json(users);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).send('Error retrieving user from database');
-        });
-});
-
-
-usersRouter.get('/:id', (req, res) => {
-    const userId = req.params.id;
-    User.findOne(userId)
-        .then((user) => {
-            if(user) res.status(200).json(user);
-            else res.status(404).send('User not found');
-        })
-        .catch((err) => {
-            res.status(500).send(`${err}: Error retrieving data from database`);
-        });
-})
 
 
 // Route to create new user with new user data response from React (front-end)
 usersRouter.post('/register', (req, res) => {
     const { email } = req.body;
+    const token = calculateToken(email)
     let validationErrors = null;
     User.findByEmail(email)
         .then((existingUserWithEmail) => {
             if (existingUserWithEmail) return Promise.reject('DUPLICATE_EMAIL');
             validationErrors = User.validate(req.body);
             if (validationErrors) return Promise.reject('INVALID_DATA');
-            return User.createUser(req.body);
+            return User.createUser({...req.body, token: token});
         })
         .then((createdUser) => {
-            res.status(201).json(createdUser);
+            res.status(201).send(`User ${createdUser.email} is successfully created and logged in`)
         })
         .catch((err) => {
             console.error(err);

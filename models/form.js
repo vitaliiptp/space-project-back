@@ -6,11 +6,9 @@ const Joi = require('joi');
 const validate = (data, forCreation = true) => {
     const presence = forCreation ? 'required' : 'optional';
     return Joi.object({
-        title: Joi.string().max(255).presence(presence),
-        director: Joi.string().max(255).presence(presence),
-        year: Joi.number().integer().min(1888).presence(presence),
-        color: Joi.boolean().presence(presence),
-        duration: Joi.number().integer().min(1).presence(presence),
+        name: Joi.string().max(255).presence(presence),
+        email: Joi.string().email().max(255).presence(presence),
+        message: Joi.string().max(255).presence(presence)
     }).validate(data, { abortEarly: false }).error;
 };
 
