@@ -5,7 +5,8 @@ const { setupRoutes } = require('./routes');
 const connection = require("./db-config");
 
 app.use(express.json());
-app.use(cors());
+app.use(cors('https://space-project-front.herokuapp.com/'));
+
 
 setupRoutes(app);
 
