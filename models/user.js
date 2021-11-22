@@ -34,6 +34,21 @@ const validate = (data, forCreation = true) => {
 };
 
 
+const findMany = ({ filters: { language }}) => {
+    let sql = 'SELECT * FROM users';
+    const sqlValues = [];
+    if(language) {
+        sql += ' WHERE language = ?';
+        sqlValues.push(language);
+    }
+    return db.query(sql, sqlValues).then(([results]) => results);
+};
+
+const findOne = (id) => {
+    return db
+        .query('SELECT * FROM users WHERE id = ?', [id])
+        .then(([result]) => result[0]);
+};
 
 
 const findByEmail = (email) => {
@@ -80,6 +95,8 @@ module.exports = {
     hashPassword,
     verifyPassword,
     validate,
+    findMany,
+    findOne,
     createUser,
     findByEmail,
     findByEmailWithDiffId,
