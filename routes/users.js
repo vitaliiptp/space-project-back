@@ -4,17 +4,17 @@ const {calculateToken} = require("../helpers/users");
 
 
 
-// usersRouter.get('/', (req, res) => {
-//     const { language } = req.query;
-//     User.findMany({ filters: { language }})
-//         .then((users) => {
-//             res.json(users);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//             res.status(500).send('Error retrieving user from database');
-//         });
-// });
+usersRouter.get('/', (req, res) => {
+    const { language } = req.query;
+    User.findMany({ filters: { language }})
+        .then((users) => {
+            res.json(users);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send('Error retrieving user from database');
+        });
+});
 
 
 // usersRouter.get('/:id', (req, res) => {
@@ -28,6 +28,7 @@ const {calculateToken} = require("../helpers/users");
 //             res.status(500).send(`${err}: Error retrieving data from database`);
 //         });
 // })
+
 
 
 // Route to create new user with new user data response from React (front-end)
